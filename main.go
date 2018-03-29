@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
+	golog "log"
 	"os"
 	"regexp"
 	"strconv"
@@ -11,7 +11,8 @@ import (
 	"time"
 )
 
-var tsRegexp = regexp.MustCompile(`\b(15\d{8})(\.)?(\d{1,3})?\b`)
+var tsRegexp = regexp.MustCompile(`\b(15\d{8})(\.\d{1,3})?\b`)
+var log = golog.New(os.Stderr, "tsdin", golog.LstdFlags)
 
 func getTimeString(ts string) string {
 	i, err := strconv.ParseInt(ts, 10, 64)
@@ -33,7 +34,7 @@ func main() {
 	for _, item := range result {
 		ts := item[1]
 		timeString := getTimeString(ts)
-		stdin = strings.Replace(string(stdin), item[0], timeString, -1)
+		stdin = strings.Replace(string(stdin), item[0], timeString, 1)
 	}
 
 	fmt.Print(stdin)
