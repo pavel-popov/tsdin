@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-var tsRegexp = regexp.MustCompile(`\b(15\d{8})(\.\d{1,3})?\b`)
+var tsRegexp = regexp.MustCompile(`\b(15\d{8})(\.)?(\d{1,3})?\b`)
 var log = golog.New(os.Stderr, "tsdin", golog.LstdFlags)
 
 func getTimeString(ts string) string {
@@ -20,7 +20,7 @@ func getTimeString(ts string) string {
 		log.Fatal(err)
 	}
 	tm := time.Unix(i, 0)
-	return tm.Format(`"2006-01-02 15:04:05 MST"`)
+	return tm.Format(`2006-01-02T15:04:05-07:00`)
 }
 
 func main() {
